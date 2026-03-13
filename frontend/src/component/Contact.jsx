@@ -75,12 +75,12 @@ const Contact = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-1">Email</h3>
-                  <p className="text-gray-400">john.doe@example.com</p>
+                  <p className="text-gray-400">itankarjanvi@gmail.com</p>
                   <p className="text-sm text-gray-500">Typically replies within 24h</p>
                 </div>
               </motion.div>
 
-              <motion.div 
+              {/* <motion.div 
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
@@ -99,10 +99,10 @@ const Contact = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-1">Phone</h3>
-                  <p className="text-gray-400">+1 (555) 123-4567</p>
+                  <p className="text-gray-400">+918767053650</p>
                   <p className="text-sm text-gray-500">Mon-Fri, 9am-6pm PST</p>
                 </div>
-              </motion.div>
+              </motion.div> */}
 
               <motion.div 
                 initial={{ opacity: 0, x: -20 }}
@@ -123,7 +123,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-1">Location</h3>
-                  <p className="text-gray-400">San Francisco, CA</p>
+                  <p className="text-gray-400">Wardha, Maharashtra</p>
                   <p className="text-sm text-gray-500">Remote / Open to relocate</p>
                 </div>
               </motion.div>

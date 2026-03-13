@@ -11,23 +11,12 @@ const Experience = () => {
 
   const experiences = [
     {
-      title: 'Senior Full Stack Developer',
-      company: 'Tech Corp',
-      period: '2022 - Present',
-      description: 'Lead development of microservices architecture, implemented CI/CD pipelines, and mentored junior developers.',
+      title: 'Mobile UI Developer Intern',
+      company: 'InnovateMore (Remote)',
+      period: 'Feb 2025 – Nov 2025',
+      description: 'Built 10+ Android UI screens using Jetpack Compose and Kotlin.Converted 15+ Figma designs into responsive mobile interfaces.Implemented reusable UI components to improve development speed.Improved UI consistency and reduced UI rework by ~20%',
     },
-    {
-      title: 'Full Stack Developer',
-      company: 'StartUp Inc',
-      period: '2020 - 2022',
-      description: 'Developed and maintained multiple React applications, integrated RESTful APIs, and optimized database queries.',
-    },
-    {
-      title: 'Frontend Developer',
-      company: 'Digital Agency',
-      period: '2018 - 2020',
-      description: 'Created responsive web applications, implemented UI/UX designs, and collaborated with design team.',
-    },
+   
   ];
 
   return (
