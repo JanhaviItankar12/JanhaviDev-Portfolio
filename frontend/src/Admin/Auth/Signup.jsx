@@ -12,6 +12,7 @@ import {
   FiArrowLeft
 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { useRegisterAdminMutation } from '../../api/adminApi';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -28,6 +29,8 @@ const Signup = () => {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [errors, setErrors] = useState({});
+
+  const [registerAdmin]=useRegisterAdminMutation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -93,24 +96,25 @@ const Signup = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Admin signup data:', formData);
-      
-      // Handle successful signup (redirect, show success message, etc.)
-      alert('Admin account created successfully!');
-      
+      // Call the backend API
+      const data = await registerAdmin(formData).unwrap();
+    
+
+      // Save token if you want, or redirect
+      localStorage.setItem("adminToken", data.token);
+      alert("Admin account created successfully!");
+
     } catch (error) {
-      console.error('Signup error:', error);
-      setErrors({ submit: 'Failed to create account. Please try again.' });
+    
+      setErrors({ submit: error.data?.message || "Failed to create account" });
     } finally {
       setIsSubmitting(false);
     }

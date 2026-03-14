@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiTwitter, FiMail, FiDownload } from 'react-icons/fi';
 import { SiGeeksforgeeks } from 'react-icons/si';
 
+
 const Hero = () => {
   const handleDownloadResume = () => {
     // Replace with your actual resume URL
@@ -41,6 +42,9 @@ const Hero = () => {
     color: "#ea4335" 
   }
 ];
+
+
+
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">

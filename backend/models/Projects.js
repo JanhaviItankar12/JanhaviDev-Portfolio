@@ -4,8 +4,10 @@ const projectSchema = mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String },
   techStack: [{ type: String }],
+  imageURL:{type:String},
   githubLink: { type: String },
   liveLink: { type: String },
+  featured:Boolean
 }, { timestamps: true });
 
 const Project = mongoose.model("Project", projectSchema);

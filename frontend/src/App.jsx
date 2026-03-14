@@ -2,7 +2,10 @@ import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "./component/MainLayout"; // Your public portfolio
 import Signup from "./Admin/Auth/Signup";
-// import AdminLogin from "./pages/AdminLogin";
+import Login from "./Admin/Auth/Login";
+import Protect from "./Admin/Auth/Protect";
+import Dashboard from "./Admin/Dashboard/Dashboard";
+
 // import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
@@ -18,7 +21,12 @@ function App() {
            {/* Admin Panel */}
 
           <Route path="/admin/signup" element={<Signup/>} />
-          {/* <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
+          <Route path="/admin/login" element={<Login/>} />
+          <Route path="/admin/dashboard" element={
+            <Protect>
+              <Dashboard/>
+            </Protect>
+          } />
         </Routes>
       </div>
     </Router>

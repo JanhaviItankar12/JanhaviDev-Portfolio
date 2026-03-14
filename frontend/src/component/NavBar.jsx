@@ -21,7 +21,7 @@ const Navbar = () => {
     }`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         <a href="#" className="text-2xl font-bold bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent">
-         JanhaviDev
+         JCode
         </a>
 
         {/* Desktop Menu */}

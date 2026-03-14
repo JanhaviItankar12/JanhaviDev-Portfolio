@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
+import { useContactAdminMutation } from '../api/publicApi';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,32 @@ const Contact = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('idle'); // 'idle', 'success', 'error'
+  const [contactAdmin] = useContactAdminMutation();
+
+  const validateForm = () => {
+    const { name, email, message } = formData;
+
+    if (name.trim().length < 2 || name.trim().length > 50) {
+      setSubmitStatus("error");
+      alert("Name must be between 2 and 50 characters");
+      return false;
+    }
+
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(email.trim())) {
+      setSubmitStatus("error");
+      alert("Please enter a valid email address");
+      return false;
+    }
+
+    if (message.trim().length < 10 || message.trim().length > 1000) {
+      setSubmitStatus("error");
+      alert("Message must be between 10 and 1000 characters");
+      return false;
+    }
+
+    return true;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,23 +47,45 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-    
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log('Form submitted:', formData);
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!validateForm()) return;
+
+  setIsSubmitting(true);
+  setSubmitStatus("idle");
+
+  try {
+    await contactAdmin(formData).unwrap();
+    setSubmitStatus("success");
+    setFormData({ name: "", email: "", message: "" });
+  } catch (error) {
+    console.log(error);
+    setSubmitStatus("error");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+  useEffect(() => {
+    if (submitStatus === "success") {
+      const timer = setTimeout(() => {
+        setSubmitStatus("idle");
+      }, 20000); // 20 seconds
+
+      return () => clearTimeout(timer);
     }
-  };
+  }, [submitStatus]);
+
+  useEffect(() => {
+    if (submitStatus === "error") {
+      const timer = setTimeout(() => {
+        setSubmitStatus("idle");
+      }, 20000); // 20 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
 
   return (
     <section id="contact" className="py-20" style={{ backgroundColor: 'var(--color-dark-200)' }}>
@@ -56,16 +105,16 @@ const Contact = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Contact Info */}
             <div className="space-y-8">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
                 className="flex items-start space-x-4"
               >
                 <div className="flex-shrink-0">
-                  <div 
+                  <div
                     className="w-12 h-12 rounded-lg flex items-center justify-center"
-                    style={{ 
+                    style={{
                       backgroundColor: 'var(--color-dark-300)',
                       color: 'var(--color-accent-primary)'
                     }}
@@ -80,40 +129,17 @@ const Contact = () => {
                 </div>
               </motion.div>
 
-              {/* <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-                className="flex items-start space-x-4"
-              >
-                <div className="flex-shrink-0">
-                  <div 
-                    className="w-12 h-12 rounded-lg flex items-center justify-center"
-                    style={{ 
-                      backgroundColor: 'var(--color-dark-300)',
-                      color: 'var(--color-accent-primary)'
-                    }}
-                  >
-                    <FiPhone className="text-2xl" />
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-1">Phone</h3>
-                  <p className="text-gray-400">+918767053650</p>
-                  <p className="text-sm text-gray-500">Mon-Fri, 9am-6pm PST</p>
-                </div>
-              </motion.div> */}
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
                 className="flex items-start space-x-4"
               >
                 <div className="flex-shrink-0">
-                  <div 
+                  <div
                     className="w-12 h-12 rounded-lg flex items-center justify-center"
-                    style={{ 
+                    style={{
                       backgroundColor: 'var(--color-dark-300)',
                       color: 'var(--color-accent-primary)'
                     }}
@@ -138,8 +164,8 @@ const Contact = () => {
               className="space-y-6"
             >
               <div>
-                <label 
-                  htmlFor="name" 
+                <label
+                  htmlFor="name"
                   className="block text-sm font-medium text-gray-300 mb-2"
                 >
                   Name
@@ -153,7 +179,7 @@ const Contact = () => {
                   required
                   disabled={isSubmitting}
                   className="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 transition-all text-white disabled:opacity-50"
-                  style={{ 
+                  style={{
                     backgroundColor: 'var(--color-dark-300)',
                     borderColor: 'var(--color-dark-400)',
                     borderWidth: '1px',
@@ -163,8 +189,8 @@ const Contact = () => {
               </div>
 
               <div>
-                <label 
-                  htmlFor="email" 
+                <label
+                  htmlFor="email"
                   className="block text-sm font-medium text-gray-300 mb-2"
                 >
                   Email
@@ -178,7 +204,7 @@ const Contact = () => {
                   required
                   disabled={isSubmitting}
                   className="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 transition-all text-white disabled:opacity-50"
-                  style={{ 
+                  style={{
                     backgroundColor: 'var(--color-dark-300)',
                     borderColor: 'var(--color-dark-400)',
                     borderWidth: '1px',
@@ -188,8 +214,8 @@ const Contact = () => {
               </div>
 
               <div>
-                <label 
-                  htmlFor="message" 
+                <label
+                  htmlFor="message"
                   className="block text-sm font-medium text-gray-300 mb-2"
                 >
                   Message
@@ -203,7 +229,7 @@ const Contact = () => {
                   required
                   disabled={isSubmitting}
                   className="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 transition-all text-white disabled:opacity-50 resize-none"
-                  style={{ 
+                  style={{
                     backgroundColor: 'var(--color-dark-300)',
                     borderColor: 'var(--color-dark-400)',
                     borderWidth: '1px',
@@ -240,7 +266,7 @@ const Contact = () => {
                 whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
                 whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
                 className="w-full px-8 py-4 text-white font-semibold rounded-lg shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ 
+                style={{
                   background: 'linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary))'
                 }}
               >
