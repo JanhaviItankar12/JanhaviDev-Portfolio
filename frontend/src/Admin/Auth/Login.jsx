@@ -84,12 +84,8 @@ const handleSubmit = async (e) => {
 
     alert("Login successfull!");
 
-    // Save token
-    localStorage.setItem("adminToken", res.token);
-
-    if (formData.rememberMe) {
-      localStorage.setItem("rememberedEmail", formData.email);
-    }
+   
+   
 
     navigate("/admin/dashboard");
 

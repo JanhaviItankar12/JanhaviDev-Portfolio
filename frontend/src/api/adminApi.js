@@ -5,16 +5,12 @@ export const adminApi = createApi({
   reducerPath: 'adminApi',
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_ADMIN_API_URL,
-    prepareHeaders: (headers, { getState }) => {
-      const token = localStorage.getItem('adminToken');
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
+    credentials: "include",
   }),
-  tagTypes: ['Projects','Experience'],
+  tagTypes: ['Projects', 'Experience'],
   endpoints: (builder) => ({
+
+   
 
     registerAdmin: builder.mutation({
       query: (credentials) => ({
@@ -32,7 +28,17 @@ export const adminApi = createApi({
       }),
     }),
 
-   
+    logout:builder.mutation({
+      query:()=>({
+         url:'/logout',
+         method:'POST'
+      })
+    }),
+
+    checkAuth: builder.query({
+      query: () => "/protected", // backend protected route
+    }),
+
     createProject: builder.mutation({
       query: (project) => ({
         url: '/projects',
@@ -43,10 +49,11 @@ export const adminApi = createApi({
     }),
 
     updateProject: builder.mutation({
-      query: ({ id, ...data }) => ({
+      query: ({ id, formData }) => ({
         url: `/projects/${id}`,
         method: 'PUT',
-        body: data,
+        body: formData, // send FormData directly
+       
       }),
       invalidatesTags: ['Projects'],
     }),
@@ -59,36 +66,36 @@ export const adminApi = createApi({
       invalidatesTags: ['Projects'],
     }),
 
-    projectById:builder.query({
-      query:(id)=>({
-        url:`/projects/${id}`,
-        method:'GET'
+    projectById: builder.query({
+      query: (id) => ({
+        url: `/projects/${id}`,
+        method: 'GET'
       }),
       invalidatesTags: ['Projects'],
     }),
 
-    getMessages:builder.query({
-      query:()=>({
-         url:'/messages',
-         method:'GET'
+    getMessages: builder.query({
+      query: () => ({
+        url: '/messages',
+        method: 'GET'
       })
     }),
 
-    markMessageRead:builder.mutation({
-      query:(id)=>({
-        url:`/message/${id}/read`,
-        method:'PATCH'
+    markMessageRead: builder.mutation({
+      query: (id) => ({
+        url: `/message/${id}/read`,
+        method: 'PATCH'
       })
     }),
 
-    deleteMessage:builder.mutation({
-        query:(id)=>({
-        url:`/message/${id}`,
-        method:'DELETE'
+    deleteMessage: builder.mutation({
+      query: (id) => ({
+        url: `/message/${id}`,
+        method: 'DELETE'
       })
     }),
 
-   
+
     // CREATE EXPERIENCE
     createExperience: builder.mutation({
       query: (data) => ({
@@ -102,10 +109,10 @@ export const adminApi = createApi({
 
     // UPDATE EXPERIENCE
     updateExperience: builder.mutation({
-      query: ({ id, ...data }) => ({
+      query: ({ id, experienceData}) => ({
         url: `/experience/${id}`,
         method: "PUT",
-        body: data
+        body: experienceData
       }),
 
       invalidatesTags: ["Experience"]
@@ -121,10 +128,10 @@ export const adminApi = createApi({
       invalidatesTags: ["Experience"]
     }),
 
-    experienceById:builder.query({
-      query:(id)=>({
-        url:`/experience/${id}`,
-        method:'GET'
+    experienceById: builder.query({
+      query: (id) => ({
+        url: `/experience/${id}`,
+        method: 'GET'
       }),
       invalidatesTags: ['Experience'],
     }),
@@ -138,7 +145,8 @@ export const adminApi = createApi({
 export const {
   useRegisterAdminMutation,
   useLoginAdminMutation,
-  
+  useLogoutMutation,
+  useCheckAuthQuery,
   useCreateProjectMutation,
   useUpdateProjectMutation,
   useDeleteProjectMutation,

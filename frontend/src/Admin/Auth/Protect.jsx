@@ -1,15 +1,19 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { useCheckAuthQuery } from '../../api/adminApi';
 
 const Protect = ({ children }) => {
-  const token = localStorage.getItem('adminToken'); 
+  const { data, isLoading, isError } = useCheckAuthQuery();
 
-  if (!token) {
-    // If not logged in, redirect to login
+  if (isLoading) return <div>Loading...</div>;
+
+  if (isError || !data?.success) {
+    // If backend says not authorized
     return <Navigate to="/admin/login" replace />;
   }
 
-  return children; 
+  return children;
 };
+
 
 export default Protect;
