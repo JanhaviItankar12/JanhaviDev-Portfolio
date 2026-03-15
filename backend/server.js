@@ -14,12 +14,17 @@ connectDB();
 
 const app = express();
 
-console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
+
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL, // your frontend URL
-  credentials: true,               // allow cookies to be sent
+  origin: process.env.FRONTEND_URL,
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type","Authorization"],
+  credentials: true
 }));
+
+app.options("*", cors());
+
 
 
 app.use(express.json());
