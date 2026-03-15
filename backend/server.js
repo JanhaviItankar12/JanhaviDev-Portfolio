@@ -23,7 +23,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.options("/*", cors());
+
 
 
 
