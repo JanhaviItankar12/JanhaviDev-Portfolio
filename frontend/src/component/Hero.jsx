@@ -95,8 +95,8 @@ const Hero = () => {
           </h2>
 
           <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-12">
-            I build exceptional and accessible digital experiences for the web.
-            Specialized in React, Node.js, and modern web technologies.
+            I'm a Computer Science student and Full Stack Developer specializing in the MERN stack.
+            I build scalable and user-friendly web applications using React, Node.js, and modern web technologies.
           </p>
           <div className="flex justify-center space-x-6 mb-12">
             {socialLinks.map((item, index) => (
