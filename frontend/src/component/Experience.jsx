@@ -14,8 +14,23 @@ const Experience = () => {
   const { data: experienceData, isLoading, isError } = useGetWorkExperienceQuery();
   const experiences = experienceData?.data || [];
 
-  if (isLoading) return <p className="text-center text-gray-400 py-10">Loading experiences...</p>;
-  if (isError) return <p className="text-center text-red-500 py-10">Failed to load experiences.</p>;
+ if (isLoading) return (
+    <div className="py-20" style={{ backgroundColor: 'var(--color-dark-100)' }}>
+      <div className="container mx-auto px-4 text-center">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: 'var(--color-accent-primary)' }}></div>
+        <p className="text-gray-400 mt-4">Loading experiences...</p>
+      </div>
+    </div>
+  );
+  
+  if (isError) return (
+    <div className="py-20" style={{ backgroundColor: 'var(--color-dark-100)' }}>
+      <div className="container mx-auto px-4 text-center">
+        <p className="text-red-500">Failed to load experiences. Please try again later.</p>
+      </div>
+    </div>
+  );
+
 
   return (
     <section id="experience" className="py-20 bg-dark-100">
