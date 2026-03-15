@@ -1,4 +1,4 @@
-# 🌐 Developer Portfolio
+# 🌐 JCode-Portfolio
 
 Welcome to my personal developer portfolio!  
 This website showcases my projects, technical skills, and development experience as a Full Stack Developer.
