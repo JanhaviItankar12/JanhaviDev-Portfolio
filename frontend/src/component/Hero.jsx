@@ -7,7 +7,7 @@ import { SiGeeksforgeeks } from 'react-icons/si';
 const Hero = () => {
   const handleDownloadResume = () => {
     // Replace with your actual resume URL
-    const resumeUrl = 'https://drive.google.com/file/d/1Y4S6rxWBFbVss3yEPRQWVUQmrUMkwke9/view?usp=sharing';
+    const resumeUrl = 'https://drive.google.com/file/d/1AweDiM0HqO_lt20MmdX0ec7fQ5KrvZkc/view?usp=sharing';
     const link = document.createElement('a');
     link.href = resumeUrl;
     link.download = 'John_Doe_Resume.pdf';
